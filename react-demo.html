@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+<script src="https://fb.me/react-0.13.3.js"></script>
+<script src="https://fb.me/JSXTransformer-0.13.3.js"></script>
+</head>
+<body>
+  <div id="container"></div>
+  <script type="text/jsx">
+      var TestClickComponent=React.createClass({
+        inputFun:function(event){
+          var dom=React.findDOMNode(this.refs.info)
+          if(dom.style.display==="none"){
+            dom.style.display="inline"
+          }else{
+            dom.style.display="none"
+          }
+          event.stopPropagation();
+          event.preventDefault();
+          
+        },
+        render:function(){
+          return (
+            <div>
+              <button onClick={this.inputFun}>show/hide</button><span ref="info">asdfa</span>
+            </div>
+          )
+        }
+      });
+
+      var TestInputComponent=React.createClass({
+        getInitialState:function(){
+          return {
+            inputContent:''
+          }
+        },
+        inputChange:function(event){
+          this.setState({
+            inputContent:event.target.value
+          })
+          event.stopPropagation();
+          event.preventDefault();
+          
+        },
+        render:function(){
+          return (
+            <div>
+              <input type="text" onChange={this.inputChange} /><span>{this.state.inputContent}</span>
+            </div>
+          )
+        }
+      });
+
+      React.render(<div><TestClickComponent/><TestInputComponent/></div>,document.getElementById('container'))
+  </script>
+</body>
+</html>
