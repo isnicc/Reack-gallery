@@ -1,0 +1,20 @@
+{
+  "atomKeymap.promptV3Features": true,
+  "editor.multiCursorModifier": "ctrlCmd",
+  "editor.formatOnPaste": true,
+  "editor.tabSize": 2,
+  "team.showWelcomeMessage": false,
+  "git.autofetch": true,
+  "files.autoSave": "onFocusChange",
+  "eslint.autoFixOnSave": true,
+  "eslint.validate": [
+    "javascript",
+    {
+      "language": "vue",
+      "autoFix": true
+    },
+    "html",
+    "vue"
+  ],
+  "sublimeTextKeymap.promptV3Features": true
+}
