@@ -12,7 +12,7 @@ import '../assets/styles/todo.styl'
 export default {
   data(){
     return {
-      content:'内容展示'
+      content:'内容展示00'
     }
   },
   methods:{
