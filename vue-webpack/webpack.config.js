@@ -3,6 +3,7 @@ const webpack=require('webpack')
 const HTMLPlugin=require('html-webpack-plugin')
 const ExtractPlugin=require('extract-text-webpack-plugin')
 const { VueLoaderPlugin } = require('vue-loader')
+const CleanWebpackPlugin = require('clean-webpack-plugin')//清除build重复的文件
 
 const isDev=process.env.NODE_ENV === 'development'
 
@@ -38,7 +39,7 @@ const config={
             loader:'url-loader',
             options:{
               limit:1024,
-              name:'[name]-qqq.[ext]'
+              name:'[name]-[hash:3].[ext]'
             }
           }
         ]
@@ -85,6 +86,22 @@ if(isDev){
   config.mode='development'
 }else{
   config.mode='production'
+  config.entry={
+    app:path.join(__dirname,'src/index.js'),
+    vendor:['vue']
+  }
+  //单独打包库文件
+  config.optimization={
+    splitChunks: {
+      cacheGroups: {
+        commons: {
+          test: /[\\/]node_modules[\\/]/,
+            name: "vendor",
+              chunks: "all"
+        }
+      }
+    }
+  }
   config.output.filename='[name].[chunkhash:8].js'
   //拆分css样式单独打包
   config.module.rules.push({
@@ -104,7 +121,15 @@ if(isDev){
     })
   })
   config.plugins.push(
-    new ExtractPlugin('styles.[chunkhash:8].css')
+    new ExtractPlugin('styles.[chunkhash:8].css'),
+    new CleanWebpackPlugin(
+      ['dist/main.*.js', 'dist/styles.*.css','*.png','app.*.js'],　 //匹配删除的文件
+      {
+        root: __dirname,       　　　　　　　　　　//根目录
+        verbose: true,        　　　　　　　　　　//开启在控制台输出信息
+        dry: false        　　　　　　　　　　//启用删除文件
+      }
+    )
   )
 }
 
